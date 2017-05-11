@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <navigation></navigation>
-    <div class="main-content">
+    <h1 v-if="!isAuthenticated">You have to be logged in</h1>
+    <div class="main-content" v-if="isAuthenticated">
       <router-view></router-view>
     </div>
   </div>
@@ -13,6 +14,14 @@ import Navigation from '@/components/Navigation'
 
 export default {
   name: 'app',
+  computed: {
+    isAuthenticated () {
+      return this.$store.state.authentication.isAuthenticated
+    },
+    user () {
+      return this.$store.state.authentication.user
+    }
+  },
   components: {
     'navigation': Navigation
   }
@@ -21,19 +30,17 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
 
 * {
   box-sizing: border-box;
 }
 
-body {
+html, body {
   margin: 0;
   padding: 0;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .main-content {
